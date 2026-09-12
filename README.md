@@ -41,7 +41,7 @@ The development server listens on the local loopback interface (`127.0.0.1`).
 
 ## Technology and structure
 
-CourtFlow uses HTML, CSS, and vanilla JavaScript, served by a small Node.js HTTP server. It has no third-party runtime dependencies or build step.
+CourtFlow uses HTML, CSS, and vanilla JavaScript, served locally by a small Node.js HTTP server. It has no third-party runtime dependencies. Deployment copies the three browser assets into `dist/` for static hosting.
 
 ```text
 courtflow/
@@ -49,7 +49,9 @@ courtflow/
 ├── styles.css    # Responsive monochrome design
 ├── app.js        # Views, interactions, local storage, and exports
 ├── server.mjs    # Local HTTP server
-└── package.json  # Development and validation commands
+├── build.mjs     # Copies browser assets into dist/
+├── vercel.json   # Static deployment configuration
+└── package.json  # Development, build, and validation commands
 ```
 
 Google Fonts supplies DM Sans and Manrope when available; the interface falls back to system sans-serif fonts offline.
@@ -70,6 +72,12 @@ npm run check
 ```
 
 This command validates the syntax of the application and server JavaScript. Browser checks during development covered case creation and updates, reload persistence, search, date filtering, hearing notes, downloads, assistant summaries, and mobile layout. The monochrome rebrand was also visually checked on desktop and mobile.
+
+## Deployment
+
+Run `npm run build` to generate the static site in `dist/`. Vercel uses the committed `vercel.json` configuration to run this command and publish that directory. The local Node.js server is not needed in production.
+
+The hosted prototype continues to save records in browser localStorage. Data entered on localhost does not transfer to the deployed site's separate browser storage.
 
 ## Development direction
 
